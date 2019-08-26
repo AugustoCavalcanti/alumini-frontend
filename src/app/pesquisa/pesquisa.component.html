@@ -1,0 +1,154 @@
+<div class="container-fluid" style="background: gainsboro">
+  <div class="input" align="right">
+    <label><p><input class="form-control" style="width:  250px;"></label>
+  </div>
+  <div class="row">
+  <div class="w-25">
+    <form #pesquisa="ngForm">
+      <h5>Visualizar:</h5>
+      <div class="d-inline-flex">
+        <div class="radio p-2">
+          <label><input type="radio" name="tela" checked (click)="mudarTela('turmas')">Turmas</label>
+        </div>
+        <div class="radio p-2">
+          <label><input type="radio" name="tela" (click)="mudarTela('formandos')">Formandos</label>
+        </div>
+      </div>
+      <div>
+        <label for="curso">
+          <select id="curso" name="curso" class="custom-select form-control" style="width: 245px" [(ngModel)]="curso">
+            <option value="">Selecione o curso...</option>
+            <option *ngFor="let curso of cursos">{{ curso }}</option>
+          </select>
+        </label>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Right-aligned menu
+        </button>
+        <div class="dropdown-menu">
+          <button class="dropdown-header" type="button"><input class="form-control"></button>
+          <button class="dropdown-item" type="button">Another action</button>
+          <button class="dropdown-item" type="button">Something else here</button>
+        </div>
+      </div>
+      <div class="d-inline-flex">
+        <div class="p-2">
+          De
+          <label for="anoI"><input class="form-control" type="number" name="anoI" id="anoI" style="width: 85px" placeholder="ex: 2010" [(ngModel)]="anoI"></label>
+        </div>
+        <div class="p-2">
+          Até
+          <label for="anoF"><input class="form-control" type="number" name="anoF" id="anoF" style="width: 85px" placeholder="ex: 2016" [(ngModel)]="anoF"></label>
+        </div>
+      </div>
+      <div class="d-flex flex-column" *ngIf="tela=='turmas'">
+        <button class="btn-sm btn-dark" (click)="atualizarListaCursos(pesquisa)" style="width: 100px">Filtrar</button>
+      </div>
+      <div *ngIf="tela=='formandos'">
+        <div class="form-inline">
+          <table>
+          <thead>
+          <td>Formandos</td>
+          </thead>
+          <tr>
+            <td>
+              <div>
+                <input class="form-check-input" type="radio" name="destaque" id="destaque" value="destaque" [(ngModel)]="destaque">Destaques
+              </div>
+            </td>
+            <td>
+              <div class="radio">
+                <input class="form-check-input" type="radio" name="destaque" id="ndestaque" value="nao destaque" [(ngModel)]="destaque">Não Destaques
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="radio" align="left">
+                <input class="form-check-input" type="radio" name="destaque" id="todos" value="" [(ngModel)]="destaque">Todos
+              </div>
+            </td>
+          </tr>
+            <tfoot><br></tfoot>
+        </table>
+      </div>
+        <div class="form-inline">
+          <label for="habilidade"><p>Habilidades:<br><input class="form-control" type="text" name="habilidade" id="habilidade" style="width: 210px" placeholder="ex: Programação" [(ngModel)]="habilidade">
+            <button class="btn btn-outline-secondary" (click)="addHabilidades()"><i class="fas fa-search"></i></button><br>
+          <small *ngFor="let habilidade of habilidadesPes"><input class="form-check-input" type="checkbox" (click)="remHabilidade(habilidade)" checked>{{ habilidade }}<br></small></p></label>
+        </div>
+        <div class="form-inline">
+          <label for="ocupacao"><p>Ocupação:<br><input class="form-control" type="text" name="ocupacao" id="ocupacao" style="width: 245px" placeholder="ex: Programador Front-end" [(ngModel)]="ocupacao"></p></label>
+        </div>
+        <div class="form-inline">
+          <table>
+            <thead>
+            <td>Nivel de Formação</td>
+            </thead>
+            <tr>
+              <td align="left"><input class="form-check-input" type="form-check-input" type="radio" name="formacao" value="Bacharelado" [(ngModel)]="formacao"> Bacharelado</td>
+              <td><input class="form-check-input" type="radio" name="formacao" value="Licenciatura" [(ngModel)]="formacao"> Licenciatura</td>
+            </tr>
+            <tr>
+              <td align="left"><input class="form-check-input" type="radio" name="formacao" value="Mestrado" [(ngModel)]="formacao"> Mestrado</td>
+              <td><input class="form-check-input" type="radio" name="formacao" value="Pos-graduacao" [(ngModel)]="formacao"> Pós-graduação</td>
+            </tr>
+            <tr>
+              <td><input class="form-check-input" type="radio" name="formacao" value="Doutorado" [(ngModel)]="formacao"> Doutorado</td>
+              <td><input class="form-check-input" type="radio" name="formacao" value="Pos-doutorado" [(ngModel)]="formacao">Pós-doutorado</td>
+            </tr>
+            <tfoot><td><input class="form-check-input" type="radio" name="formacao" value="" [(ngModel)]="formacao"> Nenhum</td></tfoot>
+          </table>
+        </div>
+        <div class="form-inline">
+          <label for="local"><p><br>Local:<br><input class="form-control" type="text" name="local" id="local" style="width: 245px" placeholder="ex: Palmas" [(ngModel)]="local"></p></label>
+        </div>
+        <button class="btn-sm btn-dark" style="width: 100px" (click)="atualizarListaFormandos(pesquisa)">Filtrar</button>
+      </div>
+    </form>
+  </div>
+  <div class="w-75">
+    <h5>Destaques</h5>
+    <div class="d-inline-flex justify-content-around" *ngFor="let formando of destaques">
+        <div class="card bg-light" style="max-width: 13rem; max-height: 13rem" align="center">
+        <div class="card-img-top  shadow-sm" align="center" style="background: gainsboro">
+            <img src="{{ formando.foto }}" style="width:120px">
+          </div>
+          <div class="card-body  shadow-sm" style="background: gainsboro">
+            <h6 class="card-title">{{ formando.nome }}</h6><p class="card-text">{{ formando.curso }} - {{ formando.ano }}/{{ formando.semestre }}</p>
+          </div>
+      </div>
+    </div>
+    <div *ngIf="tela=='turmas'">
+      <br><br>
+      <h5>Turmas</h5>
+      <div class="d-inline-flex justify-content-around" *ngFor="let turma of turmas">
+        <div class="card bg-light" style="max-width: 13rem; max-height: 14rem" align="center">
+        <div class="card-img-top  shadow-sm" align="center" style="background: gainsboro">
+            <img src="{{ turma.foto }}" style="width:100px">
+          </div>
+          <div class="card-body  shadow-sm" style="background: gainsboro">
+            <h6 class="card-title">{{ turma.nome }}</h6><p class="card-text">{{ turma.curso }} - {{ turma.ano }}/{{ turma.semestre }}</p>
+          </div>
+      </div>
+      </div>
+    </div>
+    <div *ngIf="tela=='formandos'">
+      <br><br>
+      <h5>Formandos</h5>
+      <div class="d-inline-flex justify-content-around" *ngFor="let formando of formandos">
+        <div class="card bg-light" style="max-width: 13rem; max-height: 14rem" align="center">
+        <div class="card-img-top  shadow-sm" style="background: gainsboro" align="center">
+            <img src="{{ formando.foto }}" style="width:120px">
+          </div>
+          <div class="card-body  shadow-sm" style="background: gainsboro">
+            <h6 class="card-title">{{ formando.nome }}</h6><p class="card-text">{{ formando.curso }} - {{ formando.ano }}/{{ formando.semestre }}</p>
+          </div>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+
